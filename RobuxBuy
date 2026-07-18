@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoRobux - Uygun Fiyatlı Roblox E-Pin Mağazası</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #121212; color: #ffffff; padding: 20px; line-height: 1.6; text-align: center; }
+        header { padding: 30px; background: linear-gradient(135deg, #1e1e1e, #2a2a2a); border-radius: 15px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        header h1 { color: #f4b400; font-size: 2.2rem; margin-bottom: 10px; }
+        header p { color: #aaaaaa; }
+        .container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; max-width: 1200px; margin: 0 auto; }
+        .card { background-color: #1c1c1c; border: 2px solid #2e2e2e; border-radius: 12px; padding: 20px; width: 240px; box-shadow: 0 6px 12px rgba(0,0,0,0.3); }
+        .card:hover { border-color: #f4b400; transform: translateY(-3px); transition: 0.2s; }
+        .robux-amount { font-size: 22px; font-weight: bold; color: #00b0ff; margin: 10px 0; }
+        .old-price { text-decoration: line-through; color: #777777; font-size: 14px; display: block; }
+        .new-price { font-size: 20px; color: #2ecc71; font-weight: bold; display: block; margin: 5px 0 15px 0; }
+        .btn-buy { background-color: #f4b400; color: #000000; border: none; padding: 10px 20px; font-weight: bold; font-size: 15px; border-radius: 8px; cursor: pointer; width: 100%; text-decoration: none; display: inline-block; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>RoRobux Mağazası</h1>
+        <p>En uygun fiyatlarla, anında teslimat yasal Roblox Hediye Kartları!</p>
+    </header>
+
+    <div class="container">
+        <!-- Paket 1 -->
+        <div class="card">
+            <div style="font-size: 30px;">🪙</div>
+            <div class="robux-amount">400 Robux</div>
+            <span class="old-price">240 TL</span>
+            <span class="new-price">229 TL</span>
+            <a href="https://iyzico.com" target="_blank" class="btn-buy">Satın Al</a>
+        </div>
+
+        <!-- Paket 2 -->
+        <div class="card">
+            <div style="font-size: 30px;">🪙</div>
+            <div class="robux-amount">1.000 Robux</div>
+            <span class="old-price">455 TL</span>
+            <span class="new-price">435 TL</span>
+            <a href="https://iyzico.com" target="_blank" class="btn-buy">Satın Al</a>
+        </div>
+    </div>
+
+    <footer style="margin-top: 40px; color: #555; font-size: 12px;">
+        <p>&copy; 2026 RoRobux. Tüm hakları saklıdır. Bu site eğitim amaçlı bir arayüz tasarımıdır.</p>
+    </footer>
+
+</body>
+</html>
+
