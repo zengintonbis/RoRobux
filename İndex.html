@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoRobux - Global E-Pin ve Oyun Parası Mağazası</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        /* Arka planı tamamen şık koyu mavi (gece mavisi) yaptık */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #031124; 
+            color: #ffffff; 
+            padding: 20px; 
+            line-height: 1.6; 
+            text-align: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animasyonlu Arka Plan Katmanı */
+        .bg-animated {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .bg-text {
+            position: absolute;
+            top: 40%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.015);
+            letter-spacing: 5px;
+            user-select: none;
+        }
+        .floating-logo {
+            position: absolute;
+            font-size: 30px;
+            opacity: 0.1;
+            animation: floatAnimation 10s infinite linear;
+        }
+        @keyframes floatAnimation {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            50% { opacity: 0.12; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Menü ve Destek Küpü */
+        .menu-container {
+            position: absolute;
+            top: 20px; right: 20px;
+            z-index: 100;
+        }
+        .three-dots {
+            font-size: 24px; cursor: pointer; background: rgba(255,255,255,0.06);
+            padding: 5px 15px; border-radius: 5px; user-select: none;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .dropdown-menu {
+            display: none; position: absolute; right: 0; top: 45px;
+            background-color: #081d3a; border: 1px solid #143564;
+            border-radius: 8px; width: 250px; padding: 15px; text-align: left;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+        }
+        .dropdown-menu h3 { font-size: 16px; margin-bottom: 10px; color: #f4b400; }
+        .dropdown-menu select {
+            width: 100%; padding: 8px; background: #031124; color: white;
+            border: 1px solid #143564; border-radius: 5px; margin-bottom: 10px;
+        }
+
+        /* Giriş Paneli (Koyu Mavi Uyumlu) */
+        .auth-container {
+            background: #081d3a; max-width: 450px; margin: 30px auto;
+            padding: 25px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            border: 1px solid #143564;
+        }
+        .auth-container h2 { margin-bottom: 15px; color: #f4b400; font-size: 1.4rem; }
+        .form-group { text-align: left; margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 13px; margin-bottom: 4px; color: #a4bcd4; }
+        .form-group input {
+            width: 100%; padding: 10px; background: #031124;
+            border: 1px solid #143564; border-radius: 6px; color: white; font-size: 14px;
+        }
+        .form-group input:focus { border-color: #f4b400; outline: none; }
+        .btn-submit {
+            background-color: #f4b400; color: #000; border: none; padding: 12px;
+            width: 100%; font-weight: bold; font-size: 15px; border-radius: 6px; cursor: pointer;
+        }
+
+        /* Başlık Alanı */
+        header { padding: 25px 0; background: linear-gradient(135deg, #051a37, #08254d); border-radius: 15px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+
+        /* Oyun Bölümleri ve Kartlar (Koyu Mavi Tasarım) */
+        .game-section { margin: 50px auto; max-width: 1200px; text-align: left; padding: 0 20px; }
+        .game-title { 
+            font-size: 1.8rem; color: #f4b400; border-bottom: 2px solid #143564; 
+            padding-bottom: 8px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+        }
+        .container { display: flex; flex-wrap: wrap; gap: 20px; }
+        .card { background-color: #081d3a; border: 2px solid #143564; border-radius: 12px; padding: 20px; width: 220px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .card:hover { border-color: #f4b400; transform: translateY(-3px); transition: 0.2s; }
+        .amount-text { font-size: 20px; font-weight: bold; color: #00b0ff; margin: 10px 0; }
+        .old-price { text-decoration: line-through; color: #6e8499; font-size: 13px; display: block; }
+        .new-price { font-size: 19px; color: #2ecc71; font-weight: bold; display: block; margin: 5px 0 15px 0; }
+        .btn-buy { background-color: #f4b400; color: #000000; border: none; padding: 10px; font-weight: bold; font-size: 14px; border-radius: 6px; cursor: pointer; width: 100%; text-decoration: none; display: inline-block; }
+    </style>
+</head>
+<body>
+
+    <!-- Animasyonlu Koyu Mavi Katman -->
+    <div class="bg-animated">
+        <div class="bg-text">GAMING</div>
+        <div class="floating-logo" style="left: 5%; animation-delay: 0s;">🪙</div>
+        <div class="floating-logo" style="left: 25%; animation-delay: 4s;">🪂</div>
+        <div class="floating-logo" style="left: 45%; animation-delay: 2s;">🚗</div>
+        <div class="floating-logo" style="left: 65%; animation-delay: 6s;">⭐</div>
+        <div class="floating-logo" style="left: 85%; animation-delay: 1s;">🔫</div>
+    </div>
+
+    <!-- Üç Nokta Menüsü -->
+    <div class="menu-container">
+        <div class="three-dots" onclick="toggleMenu()">&#8942; Menü</div>
+        <div class="dropdown-menu" id="helpMenu">
+            <h3>Yardım & Destek</h3>
+            <p style="font-size:11px; color:#aaa; margin-bottom:8px;">Para birimi seçin:</p>
+            <select id="currencySelect" onchange="changeCurrency()">
+                <option value="TRY">TL (Türk Lirası)</option>
+                <option value="AZN">AZN (Manat)</option>
+                <option value="USD">USD (Dolar)</option>
+            </select>
+            <p style="font-size: 12px; margin-top: 8px;">📩 destek@rorobux.com</p>
+        </div>
+    </div>
+
+    <header>
+        <h1 style="color: #f4b400; font-size: 2.3rem;">RoRobux Oyun Mağazası</h1>
+        <p style="color: #a4bcd4;">En popüler oyunların dijital kodları ve para birimleri en uygun fiyatlarla!</p>
+    </header>
+
+    <!-- Kayıt / Giriş Ekranı -->
+    <div class="auth-container">
+        <h2>Giriş Yapmak / Kaydolmak</h2>
+        <form onsubmit="event.preventDefault(); alert('Giriş Başarılı! Keyifli alışverişler.');">
+            <div class="form-group"><label>Kullanıcı İsmi</label><input type="text" placeholder="Kullanıcı adınız" required></div>
+            <div class="form-group"><label>Soyadı</label><input type="text" placeholder="Soyadınız" required></div>
+            <div class="form-group"><label>Telefon Numarası</label><input type="tel" placeholder="+90 5xx xxx xx xx" required></div>
+            <button type="submit" class="btn-submit">Sisteme Giriş Yap</button>
+        </form>
+    </div>
+
+    <!-- ROBLOX -->
+    <div class="game-section">
+        <div class="game-title">🤖 Roblox</div>
+        <div class="container">
+            <div class="card">
+                <div class="amount-text">400 Robux</div>
+                <span class="old-price" id="rb1-old">240 TL</span><span class="new-price" id="rb1-new">229 TL</span>
+                <a href="https://iyzico.com" target="_blank" class="btn-buy">Satın Al</a>
+            </div>
+            <div class="card">
+                <div class="amount-text">1.000 Robux</div>
+                <span class="old-price" id="rb2-old">455 TL</span><span class="new-price" id="rb2-new">435 TL</span>
+                <a href="https://iyzico.com" target="_blank" class="btn-buy">Satın Al</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- PUBG MOBILE -->
+    <div class="game-section">
+        <div class="game-title">🪂 PUBG Mobile</div>
+        <div class="container">
+            <div class="card">
+                <div class="amount-text">325 UC</div>
+                <span class="old-price" id="pubg1-old">190 TL</span><span class="new-price" id="pubg1-new">179 TL</span>
+                <a href="https://iyzico.com" target="_blank" class="btn-buy">Satın Al</a>
+            </div>
+            <div class="card">
+                <div class="amount-text">660 UC</div>
+                <span class="old-price" id="pubg2-old">380 TL</span><span class="new-price" id="pubg2-new">355 TL</span>
+                <a href="https://iyzico.com" target="_blank" class="btn-buy">Satın Al</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- BRAWL STARS -->
+    <div class="game-section">
+        <div class="game-title">⭐ Brawl Stars</div>
+        <div class="container">
+            <div class="card">
+                <div class="amount-text">30 Elmas</div>
+                <span class="old-price" id="bs1-old">80 TL</span><span class="new-price" id="bs1-new">72 TL</span>
+                <a href="https://iyzico.com" target="_blank" class="btn-buy">Satın Al</a>
+            </div>
+            <div class="card">
+                <div class="amount-text">170 Elmas</div>
+                <span class="old-price" id="bs2-old">400 TL</span><span class="new-price" id="bs2-new">375 TL</span>
+                <a href="https://iyzico.com" target="_blank" class="btn-buy">Satın Al</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- FORTNITE -->
+    <div class="game-section">
+        <div class="game-title">⚔️ Fortnite</div>
+        <div class="container">
+            <div class="card">
+                <div class="amount-text">1.000 V-Papel</div>
+                <span class="old-price" id="fort1-old">320 TL</span><span class="new-price" id="fort1-new">299 TL</span>
+  
